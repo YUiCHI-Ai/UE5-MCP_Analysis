@@ -45,6 +45,28 @@ UE5-MCP（Model Control Protocol）は、BlenderとUnreal Engine 5のワーク�
 
 このプロジェクトの核心は、自然言語指示をBlenderとUE5内での具体的なアクションに変換する能力にあります。例えば、「中世の村を生成して」という指示から、適切な建物、地形、テクスチャを持つ完全な3Dシーンを自動的に作成することができます。
 
+```mermaid
+graph LR
+    User[ユーザー] -->|自然言語指示| AI[AI処理エンジン]
+    AI -->|コマンド変換| Blender[Blender]
+    AI -->|コマンド変換| UE5[Unreal Engine 5]
+    Blender -->|アセット転送| UE5
+    Blender -->|3Dモデル作成| Assets[アセット]
+    UE5 -->|ゲームレベル構築| Game[完成ゲーム]
+    
+    classDef user fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef ai fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef software fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef output fill:#fbb,stroke:#333,stroke-width:2px;
+    
+    class User user;
+    class AI ai;
+    class Blender,UE5 software;
+    class Assets,Game output;
+```
+
+上図はUE5-MCPの基本的な概念を示しています。ユーザーの自然言語指示がAI処理エンジンによって解釈され、BlenderとUnreal Engine 5への具体的なコマンドに変換されます。これにより、3Dアセット作成からゲームレベル構築までの一連のプロセスが自動化されます。
+
 ## 革新的な機能
 
 ### AI駆動のシーン生成
@@ -121,6 +143,71 @@ UE5-MCPのアーキテクチャは、モジュール性と拡張性を重視し�
 
 特筆すべきは、複数のAIプロバイダー（OpenAI GPT、Stable Diffusion、Claude AI）をサポートしている点です。これにより、異なるタスクに最適なAIモデルを選択できます。
 
+```mermaid
+flowchart TB
+    subgraph "コア処理レイヤー"
+        NLP[自然言語処理]
+        AIEngine[AIエンジン]
+        CommandGen[コマンド生成]
+    end
+    
+    subgraph "Blender-MCPモジュール"
+        BlenderAPI[Blender API]
+        BlenderPlugins[プラグイン]
+        AssetCreation[アセット作成]
+    end
+    
+    subgraph "UE5-MCPモジュール"
+        UE5API[UE5 API]
+        UE5Plugins[プラグイン]
+        LevelDesign[レベルデザイン]
+        Blueprint[Blueprint生成]
+    end
+    
+    subgraph "ミドルウェア通信レイヤー"
+        DataTransfer[データ転送]
+        FormatConversion[フォーマット変換]
+    end
+    
+    subgraph "データストレージと構成管理"
+        Templates[テンプレート]
+        Config[設定]
+        AssetLibrary[アセットライブラリ]
+    end
+    
+    NLP --> AIEngine
+    AIEngine --> CommandGen
+    CommandGen --> BlenderAPI
+    CommandGen --> UE5API
+    BlenderAPI --> BlenderPlugins
+    BlenderPlugins --> AssetCreation
+    UE5API --> UE5Plugins
+    UE5Plugins --> LevelDesign
+    UE5Plugins --> Blueprint
+    AssetCreation --> DataTransfer
+    DataTransfer --> FormatConversion
+    FormatConversion --> LevelDesign
+    Templates --> AssetCreation
+    Templates --> LevelDesign
+    Config --> AIEngine
+    AssetLibrary --> AssetCreation
+    AssetLibrary --> LevelDesign
+    
+    classDef core fill:#f9d,stroke:#333,stroke-width:1px;
+    classDef blender fill:#9df,stroke:#333,stroke-width:1px;
+    classDef ue5 fill:#df9,stroke:#333,stroke-width:1px;
+    classDef middleware fill:#fd9,stroke:#333,stroke-width:1px;
+    classDef storage fill:#d9f,stroke:#333,stroke-width:1px;
+    
+    class NLP,AIEngine,CommandGen core;
+    class BlenderAPI,BlenderPlugins,AssetCreation blender;
+    class UE5API,UE5Plugins,LevelDesign,Blueprint ue5;
+    class DataTransfer,FormatConversion middleware;
+    class Templates,Config,AssetLibrary storage;
+```
+
+上図はUE5-MCPの技術アーキテクチャを示しています。各レイヤーが連携して動作し、自然言語指示からゲームレベル作成までのエンドツーエンドパイプラインを実現しています。
+
 ```json
 // AI設定例
 {
@@ -135,6 +222,45 @@ UE5-MCPのアーキテクチャは、モジュール性と拡張性を重視し�
 ## 実践的なワークフロー
 
 UE5-MCPの実際のワークフローは、以下のステップで構成されています：
+
+```mermaid
+graph TD
+    Start[開始] --> Step1[ステップ1: Blenderでのアセット作成]
+    Step1 --> Step1_1[MCPプラグインをロード]
+    Step1_1 --> Step1_2[テキスト説明からシーン生成]
+    Step1_2 --> Step1_3[オブジェクトの調整]
+    Step1_3 --> Step1_4[テクスチャ適用]
+    Step1_4 --> Step1_5[UE5用にエクスポート]
+    
+    Step1_5 --> Step2[ステップ2: UE5へのアセット転送]
+    Step2 --> Step2_1[アセットをインポート]
+    Step2_1 --> Step2_2[MCPツールで処理・最適化]
+    Step2_2 --> Step2_3[マテリアル・テクスチャ割り当て]
+    
+    Step2_3 --> Step3[ステップ3: UE5でのレベルデザイン自動化]
+    Step3 --> Step3_1[手続き型地形生成]
+    Step3_1 --> Step3_2[アセット自動配置]
+    Step3_2 --> Step3_3[AIによる配置の洗練]
+    
+    Step3_3 --> Step4[ステップ4: Blueprint自動化とゲームプレイロジック]
+    Step4 --> Step4_1[Blueprintを生成]
+    Step4_1 --> Step4_2[テストと反復]
+    Step4_2 --> Step4_3[パフォーマンス最適化]
+    
+    Step4_3 --> End[完成]
+    
+    classDef start fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef step fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef substep fill:#ddf,stroke:#333,stroke-width:1px;
+    classDef end fill:#bfb,stroke:#333,stroke-width:2px;
+    
+    class Start start;
+    class Step1,Step2,Step3,Step4 step;
+    class Step1_1,Step1_2,Step1_3,Step1_4,Step1_5,Step2_1,Step2_2,Step2_3,Step3_1,Step3_2,Step3_3,Step4_1,Step4_2,Step4_3 substep;
+    class End end;
+```
+
+上図はUE5-MCPを使用した実践的なワークフローを示しています。各ステップが順序立てて実行され、アイデアから完成したゲームレベルまでの時間を大幅に短縮できます。
 
 ### ステップ1: Blenderでのアセット作成
 1. Blenderを開き、MCPプラグインをロード
