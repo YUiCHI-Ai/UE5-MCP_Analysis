@@ -224,40 +224,17 @@ flowchart TB
 UE5-MCPの実際のワークフローは、以下のステップで構成されています：
 
 ```mermaid
-graph TD
-    Start[開始] --> Step1[ステップ1: Blenderでのアセット作成]
-    Step1 --> Step1_1[MCPプラグインをロード]
-    Step1_1 --> Step1_2[テキスト説明からシーン生成]
-    Step1_2 --> Step1_3[オブジェクトの調整]
-    Step1_3 --> Step1_4[テクスチャ適用]
-    Step1_4 --> Step1_5[UE5用にエクスポート]
+flowchart TD
+    Start[開始] --> Step1[1: Blenderでアセット作成]
+    Step1 --> Step2[2: UE5へアセット転送]
+    Step2 --> Step3[3: レベルデザイン自動化]
+    Step3 --> Step4[4: Blueprint生成]
+    Step4 --> End[完成]
     
-    Step1_5 --> Step2[ステップ2: UE5へのアセット転送]
-    Step2 --> Step2_1[アセットをインポート]
-    Step2_1 --> Step2_2[MCPツールで処理・最適化]
-    Step2_2 --> Step2_3[マテリアル・テクスチャ割り当て]
-    
-    Step2_3 --> Step3[ステップ3: UE5でのレベルデザイン自動化]
-    Step3 --> Step3_1[手続き型地形生成]
-    Step3_1 --> Step3_2[アセット自動配置]
-    Step3_2 --> Step3_3[AIによる配置の洗練]
-    
-    Step3_3 --> Step4[ステップ4: Blueprint自動化とゲームプレイロジック]
-    Step4 --> Step4_1[Blueprintを生成]
-    Step4_1 --> Step4_2[テストと反復]
-    Step4_2 --> Step4_3[パフォーマンス最適化]
-    
-    Step4_3 --> End[完成]
-    
-    classDef start fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef step fill:#bbf,stroke:#333,stroke-width:2px;
-    classDef substep fill:#ddf,stroke:#333,stroke-width:1px;
-    classDef end fill:#bfb,stroke:#333,stroke-width:2px;
-    
-    class Start start;
-    class Step1,Step2,Step3,Step4 step;
-    class Step1_1,Step1_2,Step1_3,Step1_4,Step1_5,Step2_1,Step2_2,Step2_3,Step3_1,Step3_2,Step3_3,Step4_1,Step4_2,Step4_3 substep;
-    class End end;
+    Step1 -.-> Note1[テキスト説明からシーン生成]
+    Step2 -.-> Note2[マテリアル自動割り当て]
+    Step3 -.-> Note3[AIによる配置最適化]
+    Step4 -.-> Note4[自然言語からコード生成]
 ```
 
 上図はUE5-MCPを使用した実践的なワークフローを示しています。各ステップが順序立てて実行され、アイデアから完成したゲームレベルまでの時間を大幅に短縮できます。
